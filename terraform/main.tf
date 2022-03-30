@@ -1,7 +1,14 @@
 provider "aws" {
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
+  region = "ap-northeast-1"
+}
+
+provider "aws" {
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
   region = "us-east-1"
+  alias = "us"
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
@@ -112,6 +119,7 @@ resource "aws_route53_record" "route53_record" {
 }
 
 resource "aws_acm_certificate" "acm_cert" {
+  provider = aws.us
   domain_name = var.site_domain
   subject_alternative_names = ["*.${var.site_domain}"]
   validation_method = "DNS"
@@ -139,6 +147,7 @@ resource "aws_route53_record" "route53_record_acm" {
 }
 
 resource "aws_acm_certificate_validation" "acm_validation" {
+  provider = aws.us
   certificate_arn = aws_acm_certificate.acm_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.route53_record_acm : record.fqdn]
 }
