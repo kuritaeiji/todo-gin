@@ -20,8 +20,8 @@
       </v-card-title>
 
       <v-card-text>
-        メールアドレス: user@example.com<br>
-        パスワード: Password1010
+        メールアドレス: {{ $config.testUser.email }}<br>
+        パスワード: {{ $config.testUser.password }}
       </v-card-text>
     </v-card>
   </before-logged-in-form>
@@ -34,13 +34,13 @@ export default {
   components: { UiGoogleBtn },
   layout: 'beforeLoggedIn',
   middleware: 'guest',
-  data () {
+  data ({ $config: { testUser } }) {
     return {
       title: this.$t('page.login'),
       params: {
         auth: {
-          email: '',
-          password: ''
+          email: testUser.email,
+          password: testUser.password
         }
       }
     }

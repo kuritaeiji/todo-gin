@@ -96,5 +96,12 @@ export default {
         config.devtool = 'source-map'
       }
     }
+  },
+
+  publicRuntimeConfig: {
+    testUser: {
+      email: 'user@example.com',
+      password: 'Password1010'
+    }
   }
 }

@@ -7,6 +7,7 @@ import UiGoogleBtn from '~/components/ui/GoogleBtn.vue'
 describe('pages/login.vue', () => {
   let vuetify
   let mock
+  const $config = { testUser: { email: 'email', password: 'password' } }
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -18,6 +19,7 @@ describe('pages/login.vue', () => {
       localVue,
       vuetify,
       stubs: ['before-logged-in-form', 'user-form'],
+      mocks: { $config },
       ...options
     })
   }
@@ -43,10 +45,17 @@ describe('pages/login.vue', () => {
       expect(wrapper.vm.$metaInfo.title).toEqual('page.login')
     })
 
+    describe('data', () => {
+      it('params.authの初期値はテストユーザーのメールアドレスとパスワード', () => {
+        const wrapper = mountPage()
+        expect(wrapper.vm.$data.params.auth).toEqual($config.testUser)
+      })
+    })
+
     describe('methods', () => {
       it('login', () => {
         const $auth = { login: mock }
-        const wrapper = mountPage({ mocks: { $auth } })
+        const wrapper = mountPage({ mocks: { $auth, $config } })
         wrapper.vm.login()
 
         expect(mock).toHaveBeenCalledWith(wrapper.vm.params.auth)

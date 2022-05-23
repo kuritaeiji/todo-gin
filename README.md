@@ -4,6 +4,9 @@
 ## アプリケーション概要
 Todoリストを作成することができる
 
+## アプリケーションURL
+https://todo-gin.ml
+
 ## テスト用アカウント
 メールアドレス: user@example.com  
 パスワード: Password1010
