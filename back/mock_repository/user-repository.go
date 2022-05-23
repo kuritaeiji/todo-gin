@@ -62,6 +62,20 @@ func (mr *MockUserRepositoryMockRecorder) Create(user interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserRepository)(nil).Create), user)
 }
 
+// Destroy mocks base method.
+func (m *MockUserRepository) Destroy(user *model.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Destroy", user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Destroy indicates an expected call of Destroy.
+func (mr *MockUserRepositoryMockRecorder) Destroy(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockUserRepository)(nil).Destroy), user)
+}
+
 // Find mocks base method.
 func (m *MockUserRepository) Find(id int) (model.User, error) {
 	m.ctrl.T.Helper()
@@ -90,6 +104,36 @@ func (m *MockUserRepository) FindByEmail(email string) (model.User, error) {
 func (mr *MockUserRepositoryMockRecorder) FindByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindByEmail), email)
+}
+
+// FindOrCreateByOpenID mocks base method.
+func (m *MockUserRepository) FindOrCreateByOpenID(openID string) (model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindOrCreateByOpenID", openID)
+	ret0, _ := ret[0].(model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOrCreateByOpenID indicates an expected call of FindOrCreateByOpenID.
+func (mr *MockUserRepositoryMockRecorder) FindOrCreateByOpenID(openID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreateByOpenID", reflect.TypeOf((*MockUserRepository)(nil).FindOrCreateByOpenID), openID)
+}
+
+// HasCard mocks base method.
+func (m *MockUserRepository) HasCard(card model.Card, user model.User) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HasCard", card, user)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// HasCard indicates an expected call of HasCard.
+func (mr *MockUserRepositoryMockRecorder) HasCard(card, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasCard", reflect.TypeOf((*MockUserRepository)(nil).HasCard), card, user)
 }
 
 // IsUnique mocks base method.

@@ -71,7 +71,7 @@ func (suite *AuthRequestTestSuite) TestSuccessLogin() {
 		"password": password,
 	}
 	bodyBytes, _ := json.Marshal(body)
-	req := httptest.NewRequest("POST", "/login", strings.NewReader(string(bodyBytes)))
+	req := httptest.NewRequest("POST", "/api/login", strings.NewReader(string(bodyBytes)))
 	req.Header.Add("Content-Type", binding.MIMEJSON)
 	suite.router.ServeHTTP(suite.rec, req)
 
@@ -85,9 +85,9 @@ func (suite *AuthRequestTestSuite) TestSuccessLogin() {
 }
 
 func (suite *AuthRequestTestSuite) TestBadLoginWithAreadyLogin() {
-	user := factory.CreateUser(factory.UserConfig{Email: email, Password: password})
+	user := factory.CreateUser(&factory.UserConfig{Email: email, Password: password})
 	tokenString := factory.CreateAccessToken(user)
-	req := httptest.NewRequest("POST", "/login", nil)
+	req := httptest.NewRequest("POST", "/api/login", nil)
 	req.Header.Add("Authorization", "Bearer "+tokenString)
 	suite.router.ServeHTTP(suite.rec, req)
 
@@ -100,7 +100,7 @@ func (suite *AuthRequestTestSuite) TestBadLoginWithRecordNotFound() {
 		"email": "",
 	}
 	bodyBytes, _ := json.Marshal(body)
-	req := httptest.NewRequest("POST", "/login", strings.NewReader(string(bodyBytes)))
+	req := httptest.NewRequest("POST", "/api/login", strings.NewReader(string(bodyBytes)))
 	req.Header.Add("Content-Type", binding.MIMEJSON)
 	suite.router.ServeHTTP(suite.rec, req)
 
@@ -119,7 +119,7 @@ func (suite *AuthRequestTestSuite) TestBadLoginWithPasswordAuthenticationError()
 		"password": "pass",
 	}
 	bodyBytes, _ := json.Marshal(body)
-	req := httptest.NewRequest("POST", "/login", strings.NewReader(string(bodyBytes)))
+	req := httptest.NewRequest("POST", "/api/login", strings.NewReader(string(bodyBytes)))
 	req.Header.Add("Content-Type", binding.MIMEJSON)
 	suite.router.ServeHTTP(suite.rec, req)
 

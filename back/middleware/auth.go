@@ -31,7 +31,7 @@ func (m *authMiddleware) Auth(ctx *gin.Context) {
 	claim, err := m.jwtService.VerifyJWT(m.tokenString(ctx))
 	verr, ok := err.(*jwt.ValidationError)
 	if ok && verr.Errors == jwt.ValidationErrorExpired {
-		ctx.AbortWithStatusJSON(config.JWTExpiredErrorResponse.Code, config.JWTExpiredErrorResponse.Json)
+		ctx.AbortWithStatusJSON(config.NotLoggedInWithJwtIsExpiredErrorResponse.Code, config.NotLoggedInWithJwtIsExpiredErrorResponse.Json)
 		return
 	}
 
@@ -47,7 +47,7 @@ func (m *authMiddleware) Auth(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Set("currentUser", currentUser)
+	ctx.Set(config.CurrentUserKey, currentUser)
 	ctx.Next()
 }
 

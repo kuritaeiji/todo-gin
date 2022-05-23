@@ -1,6 +1,0 @@
-[submodule "todo-gin-back"]
-	path = back
-	url = https://github.com/kuritaeiji/todo-gin-back.git
-[submodule "todo-gin-front"]
-	path = front
-	url = https://github.com/kuritaeiji/todo-gin-front.git

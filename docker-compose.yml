@@ -11,6 +11,7 @@ services:
       - 3307:3306
     volumes:
       - mysql:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
   testdb:
     container_name: testdb
     image: mysql:5.7
@@ -19,6 +20,8 @@ services:
       MYSQL_DATABASE: app-test
     ports:
       - 3306:3306
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
 volumes:
   mysql:

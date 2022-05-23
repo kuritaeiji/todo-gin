@@ -1,4 +1,5 @@
 module.exports = {
+  setupFiles: ['<rootDir>/test/setup.js'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',

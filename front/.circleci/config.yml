@@ -1,0 +1,47 @@
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.0.15
+
+jobs:
+  build_and_test:
+    docker:
+      - image: node:14
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+           - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn test
+      - run: yarn generate
+      # deployJobになるとyarn generateで作成されたファイル群が消えるので、残しておくためにpersist_to_workspaceを使う
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - dist
+  deploy:
+    docker:
+      - image: cimg/python:3.6
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - aws-s3/sync:
+          from: dist
+          to: s3://todo-gin.ml
+      - run: aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
+
+workflows:
+  test_and_deploy:
+    jobs:
+      - build_and_test
+      - deploy:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: master

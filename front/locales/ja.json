@@ -1,0 +1,48 @@
+{
+  "appTitle": "Todo-Gin",
+  "page": {
+    "index": "Todo-Gin",
+    "login": "ログイン",
+    "signup": "会員登録"
+  },
+  "model": {
+    "user": {
+      "email": "メールアドレス",
+      "password": "パスワード"
+    }
+  },
+  "btn": {
+    "submit": "送信する",
+    "logout": "ログアウト",
+    "withdraw": "退会する"
+  },
+  "error": {
+    "login": {
+      "record not found": "ユーザーが見つかりません",
+      "password is not authenticated": "パスワードが間違っています"
+    }
+  },
+  "validation": {
+    "standard": "フォームが間違っています"
+  },
+  "flash": {
+    "authMiddleware": "ログインして下さい",
+    "guestMiddleware": "既にログイン済みです",
+    "login": "ログインしました",
+    "logout": "ログアウトしました",
+    "activationEmail": "アカウント有効化メールを送信しました",
+    "activationEmailError": "有効化メールを送信できませんでした",
+    "jwtExpiredError": "トークンの有効期限が切れています",
+    "alreadyActivatedUserError": "既にアカウントは有効化されています",
+    "activateUser": "アカウントを有効化しました",
+    "notLoggedInWithJwtIsExpiredError": "有効期限が切れている為、もう一度ログインして下さい",
+    "withdraw": "退会しました"
+  },
+  "form": {
+    "annotation": {
+      "user": {
+        "password": "大文字、小文字、数字の3種類以上かつ8文字以上"
+      }
+    }
+  }
+}

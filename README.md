@@ -1,4 +1,26 @@
-# todo-gin
+## アプリケーション名
+「Todo-Gin」
 
-## 課題
-- ユーザー作成後にアカウント有効化メールを送信するが、sendgridのapiサーバーが落ちている等の理由でメール送信が失敗するケースのためにtransactionを使ってユーザー作成をrollbackするようにしたかったが、データアクセス層からビジネスロジック層にアクセスしようとするとimport cycle errorが発生してtransactionが使えなかった。
+## アプリケーション概要
+Todoリストを作成することができる
+
+## テスト用アカウント
+メールアドレス: user@example.com  
+パスワード: Password1010
+
+## アプリケーションの機能一覧
+- 認証機能 (トークンとしてJWTを用いた）
+- Googleアカウントを用いた認証機能 (oidc)
+- Todoリスト作成機能
+- Todoカード作成機能
+- Todoリスト・Todoカードのドラッグアンドロップ機能（自作）
+
+## アプリケーション内で使用しいる技術
+- フロントエンド: Nuxt.js
+- フロントエンドテスト: Jest
+- バックエンド: Golang(Gin)
+- データベース: Mysql
+- 仮想化技術: docker-compose
+- CI/CDツール: CircleCI
+- バックエンドのインフラ: herokuのコンテナデプロイ
+- フロントのインフラ: Route53 + ACM + CloudFront + S3 + Terraform

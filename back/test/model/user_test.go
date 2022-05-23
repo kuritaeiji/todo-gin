@@ -19,7 +19,7 @@ func (suite *UserModelTestSuite) SetupSuite() {
 }
 
 func (suite *UserModelTestSuite) SetupTest() {
-	suite.model = factory.NewUser(factory.UserConfig{})
+	suite.model = factory.NewUser(&factory.UserConfig{})
 }
 
 func TestUserModel(t *testing.T) {
@@ -32,4 +32,20 @@ func (suite *UserModelTestSuite) TestSuccessAuthenticate() {
 
 func (suite *UserModelTestSuite) TestBadAuthenticate() {
 	suite.False(suite.model.Authenticate("invalid password"))
+}
+
+func (suite *UserModelTestSuite) TestTrueHasList() {
+	var user model.User
+	var list model.List
+	list.UserID = user.ID
+
+	suite.True(user.HasList(list))
+}
+
+func (suite *UserModelTestSuite) TestFalseHasList() {
+	var user model.User
+	var list model.List
+	list.UserID = user.ID + 1
+
+	suite.False(user.HasList(list))
 }

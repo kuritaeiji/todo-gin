@@ -9,10 +9,10 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - front',
+    titleTemplate: '%s',
     title: 'front',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -27,11 +27,19 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/main.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/handler.js',
+    '~/plugins/auth.js',
+    '~/plugins/axios.js'
   ],
+
+  router: {
+    middleware: ['clearValidation', 'clearFlash']
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,29 +55,35 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/i18n',
+    'nuxt-client-init-module'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://todo-gin-back.herokuapp.com/api' : 'http://localhost:8080/api',
+    credentials: true
+  },
+
+  i18n: {
+    locales: [{ code: 'ja', iso: 'ja-JP', file: 'ja.json' }],
+    defaultLocale: 'ja',
+    strategy: 'no_prefix',
+    langDir: '~/locales/',
+    vueI18n: {
+      fallbackLocale: 'ja'
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          background: colors.grey.lighten4
         }
       }
     }
@@ -77,5 +91,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, { isDev }) {
+      if (isDev) {
+        config.devtool = 'source-map'
+      }
+    }
   }
 }
