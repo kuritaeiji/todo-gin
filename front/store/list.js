@@ -115,10 +115,10 @@ export const actions = {
     commit('destroyList', id)
   },
   async moveList ({ commit, getters }, { id, index }) {
-    await this.$axios.$put(`/lists/${id}/move`, { index })
     const list = getters.findList(id)
     commit('destroyList', id)
     commit('addList', { list, index })
+    await this.$axios.$put(`/lists/${id}/move`, { index })
   },
   // カード
   createCard ({ commit, getters }, { card, listID }) {

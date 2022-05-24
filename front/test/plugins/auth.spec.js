@@ -82,46 +82,27 @@ describe('plugins/Auth', () => {
       expect(app.$handler.standardAxiosError).toHaveBeenCalledWith(error)
     })
 
-    describe('apiからurlが返る場合', () => {
-      it('localStorageにstateを保管する', async () => {
-        const response = { url: 'https://api.google.com', state: 'state' }
-        const $axios = { $get: () => Promise.resolve(response) }
-        const auth = new Auth({ $axios })
-        const storage = { setItem: jest.fn() }
-        auth.storage = storage
-        const mock = jest.fn()
-        window.location = Object.defineProperties({}, { assign: { configurable: true, value: mock } })
-        await auth.requestGoogleAuthEndpoint()
-        expect(storage.setItem).toHaveBeenCalledWith(auth.googleStateKey, response.state)
-      })
-
-      it('apiから返ったurlにリダイレクトする', async () => {
-        const response = { url: 'https://api.google.com', state: 'state' }
-        const $axios = { $get: () => Promise.resolve(response) }
-        const auth = new Auth({ $axios })
-        const storage = { setItem: jest.fn() }
-        auth.storage = storage
-        const mock = jest.fn()
-        delete window.location
-        window.location = Object.defineProperties({}, { assign: { configurable: true, value: mock } })
-        await auth.requestGoogleAuthEndpoint()
-        expect(mock).toHaveBeenCalledWith(response.url)
-      })
+    it('apiから返ったurlにリダイレクトする', async () => {
+      const response = { url: 'https://api.google.com', state: 'state' }
+      const $axios = { $get: () => Promise.resolve(response) }
+      const auth = new Auth({ $axios })
+      const mock = jest.fn()
+      delete window.location
+      window.location = Object.defineProperties({}, { assign: { configurable: true, value: mock } })
+      await auth.requestGoogleAuthEndpoint()
+      expect(mock).toHaveBeenCalledWith(response.url)
     })
   })
 
   describe('googleLoginメソッド', () => {
     const query = { state: 'state', code: 'code' }
-    const localStorageState = 'localStorageState'
-    const localStorage = { getItem: key => localStorageState }
 
     it('/google/loginパスにpostする', () => {
       const $axios = { $post: jest.fn() }
       const auth = new Auth({ $axios })
-      auth.storage = localStorage
       auth.googleLogin(query)
 
-      expect($axios.$post).toHaveBeenCalledWith('/google/login', { state: query.state, code: query.code, local_storage_state: localStorageState })
+      expect($axios.$post).toHaveBeenCalledWith('/google/login', { state: query.state, code: query.code })
     })
 
     it('成功する場合_loginResolveメソッドをよびだす', async () => {

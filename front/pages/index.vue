@@ -153,12 +153,14 @@ export default {
       if (this.isDraggingList) {
         if (this.dragParam.id === null || this.dragParam.index === null || !this.isChangedDraggedListIndex) {
           this._finishDraggingList()
+          this._initDragParam()
           return
         }
 
         try {
-          await this.moveList(this.dragParam)
           this._finishDraggingList()
+          await this.moveList(this.dragParam)
+          this._initDragParam()
         } catch (error) {
           this.$handler.standardAxiosError(error)
         }
@@ -167,12 +169,14 @@ export default {
       if (this.isDraggingCard) {
         if (this.card === null || this.dragCardParam.toIndex === null || !this.isChangedDraggedCardIndex) {
           this._finishDraggingCard()
+          this._initDragCardParam()
           return
         }
 
         try {
-          await this.moveCard(this.dragCardParam)
           this._finishDraggingCard()
+          await this.moveCard(this.dragCardParam)
+          this._initDragCardParam()
         } catch (error) {
           this.$handler.standardAxiosError(error)
         }
@@ -316,6 +320,8 @@ export default {
       this._makeElementVisible()
       this.placeholder.remove()
       this.dragElement.remove()
+    },
+    _initDragParam () {
       this.dragParam = { ...defaultDragParam }
     },
     _finishDraggingCard () {
@@ -323,6 +329,8 @@ export default {
       this._makeElementVisible()
       this.dragElement.remove()
       this.placeholder.remove()
+    },
+    _initDragCardParam () {
       this.dragCardParam = { ...defaultDragCardParam }
     }
   }

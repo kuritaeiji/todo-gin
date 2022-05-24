@@ -13,7 +13,7 @@ export const actions = {
     dispatch('list/destroyCard', card, { root: true })
   },
   async moveCard ({ dispatch }, { card, toListID, toIndex }) {
-    await this.$axios.$put(`/cards/${card.id}/move`, { toListID, toIndex })
     dispatch('list/moveCard', { card, toListID, toIndex }, { root: true })
+    await this.$axios.$put(`/cards/${card.id}/move`, { toListID, toIndex })
   }
 }
