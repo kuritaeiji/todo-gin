@@ -158,3 +158,12 @@ resource "aws_acm_certificate_validation" "acm_validation" {
   certificate_arn = aws_acm_certificate.acm_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.route53_record_acm : record.fqdn]
 }
+
+resource "aws_route53_record" "api_record" {
+  zone_id = aws_route53_zone.route53_zone.zone_id
+  name = "api"
+  type = "CNAME"
+  records = [var.heroku_dns]
+
+  ttl = "5"
+}
